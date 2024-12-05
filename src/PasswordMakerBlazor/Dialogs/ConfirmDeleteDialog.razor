@@ -1,0 +1,60 @@
+﻿@inject IDialogService DialogService
+
+@implements IDialogContentComponent
+
+<FluentDialog>
+    <FluentDialogHeader ShowDismiss="false">
+        <FluentStack VerticalAlignment="VerticalAlignment.Center">
+            <FluentIcon Value="@(new Icons.Regular.Size24.Delete())" />
+            <FluentLabel Typo="Typography.PaneHeader">
+                Confirm Deletion
+            </FluentLabel>
+        </FluentStack>
+    </FluentDialogHeader>
+
+    <FluentDialogBody>
+        <FluentStack Orientation="Orientation.Vertical">
+            <FluentLabel Typo="Typography.Subject">Are you sure that you want to delete?</FluentLabel>
+            <FluentTextField Autofocus="true" style="width: 100%; margin: 10px;" ReadOnly="true"
+                @bind-Value="optionsName" @onkeyup="HandleKeyUp" />
+        </FluentStack>
+    </FluentDialogBody>
+
+    <FluentDialogFooter>
+        <FluentStack Orientation="Orientation.Horizontal" HorizontalAlignment="HorizontalAlignment.Stretch" VerticalAlignment="VerticalAlignment.Center" style="width: 100%;">
+            <FluentButton Appearance="Appearance.Accent" OnClick="@Delete" style="margin-left: auto;">Delete</FluentButton>
+            <FluentButton Appearance="Appearance.Outline" OnClick="@Cancel">Cancel</FluentButton>
+        </FluentStack>
+    </FluentDialogFooter>
+</FluentDialog>
+
+@code {
+    private string optionsName = string.Empty;
+
+    [CascadingParameter]
+    public FluentDialog Dialog { get; set; } = default!;
+
+    protected override void OnInitialized()
+    {
+        optionsName = App.Client.PasswordMakerVm.CurrentOptions.Name;
+        base.OnInitialized();
+    }
+
+    private async Task Delete()
+    {
+        await Dialog.CloseAsync();
+    }
+
+    private async Task Cancel()
+    {
+        await Dialog.CancelAsync();
+    }
+
+    private async Task HandleKeyUp(KeyboardEventArgs e)
+    {
+        if (e.Key == "Enter")
+        {
+            await Delete();
+        }
+    }
+}

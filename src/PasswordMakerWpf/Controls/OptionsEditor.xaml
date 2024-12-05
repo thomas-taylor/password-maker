@@ -1,0 +1,57 @@
+﻿<UserControl x:Class="PasswordMakerWpf.OptionsEditor"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+    xmlns:local="clr-namespace:PasswordMakerWpf"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"        
+    mc:Ignorable="d" 
+    d:DesignHeight="400" d:DesignWidth="400">
+    <Grid Grid.Row="0" Grid.Column="0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0" Margin="0,10,0,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto" />
+                <ColumnDefinition Width="auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Column="0" Text="Length" Margin="5" VerticalAlignment="Center" FontSize="12pt" FontWeight="SemiBold" />
+            <materialDesign:NumericUpDown Grid.Column="1" Value="{Binding Length}" Name="LengthUpDown"
+                Margin="5" FontSize="12pt"
+                PreviewTextInput="PreviewTextInputForPositiveIntegers"
+                PreviewKeyDown="PreviewKeyDownIgnoreSpace">
+                <materialDesign:NumericUpDown.IncreaseContent>
+                    <materialDesign:PackIcon Kind="Plus" />
+                </materialDesign:NumericUpDown.IncreaseContent>
+                <materialDesign:NumericUpDown.DecreaseContent>
+                    <materialDesign:PackIcon Kind="Minus" />
+                </materialDesign:NumericUpDown.DecreaseContent>
+            </materialDesign:NumericUpDown>
+        </Grid>
+        <TextBlock Grid.Row="1" Text="Include character groups" Margin="5,15,5,2" FontSize="12pt" FontWeight="SemiBold" />
+        <Grid Grid.Row="2" Name="characterGroupsGrid" Margin="20,0,0,0"></Grid>
+        <TextBlock Grid.Row="3" Text="Include specific characters" Margin="5,20,5,0" FontSize="12pt" FontWeight="SemiBold" />
+        <TextBox Grid.Row="4" Name="includeCharactersTextBox" Text="{Binding Path=IncludeSpecificCharacters}" Margin="5" FontFamily="Consolas,Courier New" />
+        <TextBlock Grid.Row="5" Text="Exclude specific characters" Margin="5,20,5,0" FontSize="12pt" FontWeight="SemiBold" />
+        <TextBox Grid.Row="6" Name="excludeCharactersTextBox" Text="{Binding Path=ExcludeSpecificCharacters}" Margin="5,3,5,5" FontFamily="Consolas,Courier New"/>
+        <Grid Grid.Row="7" Margin="0,10,0,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <CheckBox Grid.Column="0" Name="excludeLookAlikeCheckBox" IsChecked="{Binding Path=ExcludeLookAlikeCharacters}" Margin="5" Content="Exclude look-alike characters" FontSize="12pt" FontWeight="SemiBold"  VerticalAlignment="Center"/>
+            <TextBlock Grid.Column="1" Text="O 0 l 1 I |" Margin="5,5,15,5" FontFamily="Consolas,Courier New"  VerticalAlignment="Center"/>
+        </Grid>
+        <CheckBox Grid.Row="8" Name="allowMultiplesCheckBox" IsChecked="{Binding Path=AllowMultiplesOfSameCharacter}" Margin="5,15,5,5" Content="Allow multiples of same characters" FontSize="12pt" FontWeight="SemiBold" />
+    </Grid>
+</UserControl>

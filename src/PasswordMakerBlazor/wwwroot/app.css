@@ -1,0 +1,163 @@
+@import '/_content/Microsoft.FluentUI.AspNetCore.Components/css/reboot.css';
+
+body {
+    --body-font: "Segoe UI Variable", "Segoe UI", sans-serif;
+    font-family: var(--body-font);
+    font-size: var(--type-ramp-base-font-size);
+    line-height: var(--type-ramp-base-line-height);
+    margin: 0;
+    padding: 0;
+    background-color: #333333;
+}
+
+.content {
+    padding: 0.5rem 1.5rem;
+    align-self: stretch !important;
+    width: 100%;
+}
+
+.header-toolbar {
+    border: 2px solid var(--accent-fill-rest);
+    border-radius: 8px;
+    padding: 4px;
+    width: 100%;
+    margin-top: 4px;
+    margin-bottom: 4px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.header-label {
+    font-size: var(--type-ramp-plus-2-font-size);
+    font-weight: bold;
+    margin-left: 8px;
+    margin-right: 4px;
+    margin-top: 4px;
+    margin-bottom: 0px;
+}
+
+fluent-text-area.full-height-textarea::part(root) {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+fluent-text-area.full-height-textarea::part(control) {
+    flex-grow: 1;
+    height: 100%;
+    resize: none;
+}
+
+.alert {
+    border: 1px dashed var(--accent-fill-rest);
+    padding: 5px;
+}
+
+#blazor-error-ui {
+    background-color: orangered;
+    color: white;
+    font-size: 14pt;
+    border-radius: 8px;
+    padding: 1rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin: 30px;
+    display: none;
+}
+
+    #blazor-error-ui .reload {
+        display: inline-block;
+        padding: 0.5rem 1rem;
+        background-color: #333333;
+        color: white;
+        text-decoration: none;
+        border: none;
+        border-radius: 4px;
+        font-size: 12pt;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        margin-left: 10px;
+    }
+
+        #blazor-error-ui .reload:hover {
+            background-color: #666666;
+        }
+
+    #blazor-error-ui .dismiss {
+        display: inline-block;
+        padding: 0.5rem 1rem;
+        background-color: #333333;
+        color: white;
+        text-decoration: none;
+        border: none;
+        border-radius: 4px;
+        font-size: 12pt;
+        cursor: pointer;
+        margin-left: 1rem;
+        transition: background-color 0.3s ease;
+    }
+
+        #blazor-error-ui .dismiss:hover {
+            background-color: #666666;
+        }
+
+.blazor-error-boundary {
+    background-color: orangered;
+    border-radius: 8px;
+    padding: 1rem 1rem 1rem 3.7rem;
+    color: white;
+    font-size: 14pt;
+    margin: 10px;
+}
+
+    .blazor-error-boundary::before {
+        content: "An error occurred: "
+    }
+
+.loading-text {
+    font-family: Consolas, Menlo, "DejaVu Sans Mono", "Courier New", monospace;
+    position: absolute;
+    inset: calc(20vh + 3.25rem) 0 auto 0.2rem;
+    color: #ff8742;
+    text-align: center;
+    font-size: 32pt;
+    font-weight: bold;
+}
+
+.main-container {
+    display: flex;
+    flex-direction: row;
+    height: 100vh;
+}
+
+.options-section {
+    flex: 57;
+    display: flex;
+    margin-left: 4px;
+    margin-right: 4px;
+}
+
+.generate-section {
+    flex: 43;
+    display: flex;
+    margin-left: 4px;
+    margin-right: 4px;
+}
+
+@media (max-width: 1170px) {
+    .main-container {
+        flex-direction: column;
+    }
+
+    .options-section {
+        flex: 1;
+        margin-left: 0px;
+        margin-right: 0px;
+    }
+
+    .generate-section {
+        flex: 1;
+        margin-left: 0px;
+        margin-right: 0px;
+    }
+}

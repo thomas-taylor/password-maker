@@ -1,0 +1,85 @@
+﻿@inject IDialogService DialogService
+
+@implements IDialogContentComponent
+
+<FluentDialog>
+    <FluentDialogHeader ShowDismiss="false">
+        <FluentStack VerticalAlignment="VerticalAlignment.Center">
+            <FluentIcon Value="@(new Icons.Regular.Size24.Edit())" />
+            <FluentLabel Typo="Typography.PaneHeader">
+                Rename Options
+            </FluentLabel>
+        </FluentStack>
+    </FluentDialogHeader>
+
+    <FluentDialogBody>
+        <FluentStack Orientation="Orientation.Vertical">
+            <FluentTextField @bind-Value="optionsName" Autofocus="true" style="width: 100%"
+                @onkeyup="HandleKeyUp">
+                Options name
+            </FluentTextField>
+            @if (showError)
+            {
+                <FluentMessageBar Intent="@MessageIntent.Error">
+                    @if (!string.IsNullOrEmpty(@errorMessage))
+                    {
+                        @errorMessage
+                    }
+                </FluentMessageBar>
+            }
+        </FluentStack>
+    </FluentDialogBody>
+
+    <FluentDialogFooter>
+        <FluentStack Orientation="Orientation.Horizontal" HorizontalAlignment="HorizontalAlignment.Stretch" VerticalAlignment="VerticalAlignment.Center" style="width: 100%;">
+            <FluentButton Appearance="Appearance.Accent" OnClick="@Rename" style="margin-left: auto;">Rename</FluentButton>
+            <FluentButton Appearance="Appearance.Outline" OnClick="@Cancel">Cancel</FluentButton>
+        </FluentStack>
+    </FluentDialogFooter>
+</FluentDialog>
+
+@code {
+    private bool showError = false;
+    private string errorMessage = string.Empty;
+    private string optionsName = string.Empty;
+
+    [CascadingParameter]
+    public FluentDialog Dialog { get; set; } = default!;
+
+    protected override void OnInitialized()
+    {
+        optionsName = App.Client.PasswordMakerVm.CurrentOptions.Name;
+        base.OnInitialized();
+    }
+
+    private void ClearError()
+    {
+        showError = false;
+        errorMessage = string.Empty;
+    }
+
+    private async Task Rename()
+    {
+        ClearError();
+        if (string.IsNullOrWhiteSpace(optionsName))
+        {
+            errorMessage = "Name is required";
+            showError = true;
+            return;
+        }
+        await Dialog.CloseAsync(optionsName);
+    }
+
+    private async Task Cancel()
+    {
+        await Dialog.CancelAsync();
+    }
+
+    private async Task HandleKeyUp(KeyboardEventArgs e)
+    {
+        if (e.Key == "Enter")
+        {
+            await Rename();
+        }
+    }
+}

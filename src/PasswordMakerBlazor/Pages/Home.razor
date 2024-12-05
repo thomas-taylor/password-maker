@@ -1,0 +1,239 @@
+﻿@page "/"
+@inject IJSRuntime JSRuntime
+@inject IDialogService DialogService
+@inject Blazored.LocalStorage.ILocalStorageService localStorage
+@using Microsoft.FluentUI.AspNetCore.Components
+@using PasswordMaker
+@using PasswordMakerClient
+
+@if (isInitialized)
+{
+    <div class="main-container">
+        <FluentStack Orientation="Orientation.Vertical" Class="options-section">
+            <FluentStack class="header-toolbar">
+                <label class="header-label">Options</label>
+
+                <FluentSelect TOption="PasswordMakerOptions" Style="margin-left: auto;"
+                              Items="App.Client.Settings.SavedOptions"
+                              OptionText="@(p => p.Name)"
+                              @bind-SelectedOption="vm.CurrentOptions"
+                              @key="optionsSelectorVersion" />
+
+                <FluentButton OnClick="@New" Appearance="Appearance.Accent"
+                              IconStart="@(new Icons.Regular.Size16.New())">New</FluentButton>
+                <FluentButton OnClick="@Rename" Appearance="Appearance.Accent"
+                              IconStart="@(new Icons.Regular.Size16.Edit())">Rename</FluentButton>
+                <FluentButton OnClick="@Delete" Appearance="Appearance.Accent"
+                              IconStart="@(new Icons.Regular.Size16.Delete())">Delete</FluentButton>
+            </FluentStack>
+
+            <FluentStack Orientation="Orientation.Vertical" Style="margin-left: 30px; margin-top: 5px;">
+                <FluentStack Orientation="Orientation.Horizontal">
+                    <FluentLabel Style="font-size: 12pt; font-weight: bold; margin-top: 10px;">Length</FluentLabel>
+                    <FluentNumberField TValue="int" Min="1" @bind-Value="vm.CurrentOptions.Length" style="width:80px; margin:5px;" />
+                </FluentStack>
+                <FluentLabel Style="font-size: 12pt; font-weight: bold; margin-top: 5px;">Include character groups</FluentLabel>
+                <div style="margin-left:20px;">
+                    <div>
+                        <FluentCheckbox @bind-Value="vm.CurrentOptions.IncludeUpper" style="margin:5px;">
+                            Upper case
+                        </FluentCheckbox>
+                        <span style="font-family:Consolas, Courier New; font-size:16px; margin:5px;">ABC...</span>
+                    </div>
+                    <div>
+                        <FluentCheckbox @bind-Value="vm.CurrentOptions.IncludeLower" style="margin:5px;">
+                            Lower case
+                        </FluentCheckbox>
+                        <span style="font-family:Consolas, Courier New; font-size:16px; margin:5px;">abc...</span>
+                    </div>
+                    <div>
+                        <FluentCheckbox @bind-Value="vm.CurrentOptions.IncludeNumber" style="margin:5px;">
+                            Numbers
+                        </FluentCheckbox>
+                        <span style="font-family:Consolas, Courier New; font-size:16px; margin:5px;">0123...</span>
+                    </div>
+                    <div>
+                        <FluentCheckbox @bind-Value="vm.CurrentOptions.IncludeMath" style="margin:5px;">
+                            Math
+                        </FluentCheckbox>
+                        <span style="font-family:Consolas, Courier New; font-size:16px; margin:5px;">+ - * / &lt; = &gt;</span>
+                    </div>
+                    <div>
+                        <FluentCheckbox @bind-Value="vm.CurrentOptions.IncludePunctuation" style="margin:5px;">
+                            Punctuation
+                        </FluentCheckbox>
+                        <span style="font-family:Consolas, Courier New; font-size:16px; margin:5px;">! , .  : ; ?</span>
+                    </div>
+                    <div>
+                        <FluentCheckbox @bind-Value="vm.CurrentOptions.IncludeBrackets" style="margin:5px;">
+                            Brackets
+                        </FluentCheckbox>
+                        <span style="font-family:Consolas, Courier New; font-size:16px; margin:5px;">( ) [ ] { }</span>
+                    </div>
+                    <div>
+                        <FluentCheckbox @bind-Value="vm.CurrentOptions.IncludeQuotes" style="margin:5px;">
+                            Quotes
+                        </FluentCheckbox>
+                        <span style="font-family:Consolas, Courier New; font-size:16px; margin:5px;">" ' </span>
+                    </div>
+                    <div>
+                        <FluentCheckbox @bind-Value="vm.CurrentOptions.IncludeSpecial" style="margin:5px;">
+                            Special
+                        </FluentCheckbox>
+                        <span style="font-family:Consolas, Courier New; font-size:16px; margin:5px;"># $ % &amp; @@ \ ^ _ | ~</span>
+                    </div>
+                </div>
+
+                <FluentStack Orientation="Orientation.Horizontal" Style="margin-top: 5px;">
+                    <FluentLabel Style="font-size: 12pt; font-weight: bold; margin-top: 10px;">Include specific characters</FluentLabel>
+                    <FluentTextField @bind-Value="vm.CurrentOptions.IncludeSpecificCharacters" style="margin:5px;" />
+                </FluentStack>
+
+                <FluentStack Orientation="Orientation.Horizontal">
+                    <FluentLabel Style="font-size: 12pt; font-weight: bold; margin-top: 10px;">Exclude specific characters</FluentLabel>
+                    <FluentTextField @bind-Value="vm.CurrentOptions.ExcludeSpecificCharacters" style="margin:5px;" />
+                </FluentStack>
+
+                <div style="display:flex; align-items:center; margin-top: 10px;">
+                    <FluentCheckbox @bind-Value="vm.CurrentOptions.ExcludeLookAlikeCharacters">
+                        <LabelTemplate>
+                            <span style="font-size: 12pt; font-weight: bold;">Exclude look-alike characters</span>
+                        </LabelTemplate>
+                    </FluentCheckbox>
+                    <span style="font-family:Consolas, Courier New; font-size: 16px; margin-left: 5px;">O 0 l 1 I |</span>
+                </div>
+
+                <FluentCheckbox @bind-Value="vm.CurrentOptions.AllowMultiplesOfSameCharacter" style="margin-top: 20px; margin-bottom: 30px;">
+                    <LabelTemplate>
+                        <span style="font-size: 12pt; font-weight: bold;">Allow multiples of same characters</span>
+                    </LabelTemplate>
+                </FluentCheckbox>
+
+            </FluentStack>
+        </FluentStack>
+        <FluentStack Orientation="Orientation.Vertical" Class="generate-section">
+            <FluentStack class="header-toolbar">
+                <label class="header-label">Generate</label>
+                <FluentBadge Style="margin-left: auto; margin-top:8px; font-size: 10pt;">Number:</FluentBadge>
+                <FluentNumberField TValue="int" @bind-Value="App.Client.Settings.NumberToGenerate" Min="1" Style="width: 100px; font-size: 11pt;"></FluentNumberField>
+                <FluentButton OnClick="@Generate" Appearance="Appearance.Accent"
+                              IconStart="@(new Icons.Regular.Size16.Play())">Generate</FluentButton>
+                <FluentButton OnClick="@Copy" Appearance="Appearance.Accent"
+                              IconStart="@(new Icons.Regular.Size16.Clipboard())">Copy</FluentButton>
+            </FluentStack>
+            <FluentTextArea @bind-Value="generatedPasswordText"
+                            class="full-height-textarea"
+                            Style="flex-grow: 1; width: 100%; min-height: 250px; resize: none; font-family: Consolas; font-size: 14pt; padding-left: 4px; padding-right: 4px; margin-bottom: 10px;">
+            </FluentTextArea>
+        </FluentStack>
+    </div>
+}
+
+@code {
+    private bool isInitialized = false;
+    private int optionsSelectorVersion = 0;
+    private string generatedPasswordText = string.Empty;
+    private PasswordMakerVm vm;
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (isInitialized) return;
+        await App.InitializeClient(localStorage);
+        vm = App.Client.PasswordMakerVm;
+        vm.PropertyChanged += (o, e) =>
+        {
+            switch (e.PropertyName)
+            {
+                case "CurrentOptions":
+                    StateHasChanged();
+                    break;
+            }
+        };
+        isInitialized = true;
+    }
+
+    internal async Task New()
+    {
+        var dialog = await DialogService.ShowDialogAsync<NewOptionsDialog>(new DialogParameters());
+        DialogResult dialogResult = await dialog.Result;
+        if (dialogResult.Cancelled) return;
+        string newName = dialogResult.Data as string;
+        if (string.IsNullOrWhiteSpace(newName)) return;
+        App.Client.PasswordMakerVm.AddNewPasswordMakerOptions(newName.Trim());
+        StateHasChanged();
+    }
+
+    internal async Task Rename()
+    {
+        var dialog = await DialogService.ShowDialogAsync<RenameOptionsDialog>(new DialogParameters());
+        DialogResult dialogResult = await dialog.Result;
+        if (dialogResult.Cancelled) return;
+        string newName = dialogResult.Data as string;
+        if (string.IsNullOrWhiteSpace(newName)) return;
+        if (App.Client.PasswordMakerVm.CurrentOptions.Name == newName) return;
+        App.Client.PasswordMakerVm.RenameCurrentOptions(newName);
+
+        // Don't fully understand, but without this, the UI crashes when StateHasChanged is called
+        // This increments the key for the FluentSelect (i.e., @key="optionsVersion")
+        // We need to call StateHasChanged because Blazor does not automatically update the display
+        // when CurrentOptions.Name is changed
+        optionsSelectorVersion++;
+
+        StateHasChanged();
+    }
+
+    internal async Task Delete()
+    {
+        if (App.Client.Settings.SavedOptions.Count == 1)
+        {
+            await ShowErrorMessage("Cannot delete. At least one set of options is required.");
+            return;
+        }
+        var dialog = await DialogService.ShowDialogAsync<ConfirmDeleteDialog>(new DialogParameters());
+        DialogResult dialogResult = await dialog.Result;
+        if (dialogResult.Cancelled) return;
+        App.Client.PasswordMakerVm.DeleteCurrentOptions();
+    }
+
+    // internal async Task Delete()
+    // {
+    //     if(App.Client.Settings.SavedOptions.Count == 1)
+    //     {
+    //         await ShowErrorMessage("Cannot delete last options");
+    //         return;
+    //     }
+    //     var dialog = await DialogService.ShowMessageBoxAsync(new DialogParameters<MessageBoxContent>()
+    //         {
+    //             Content = new()
+    //             {
+    //                 Title = "Confirm Deletion",
+    //                 MarkupMessage = new MarkupString($"Are you sure that you want to delete options:<div style=\"margin: 20px;\">{App.Client.PasswordMakerVm.CurrentOptions.Name}</div>"),
+    //                 Icon = new Icons.Regular.Size48.Question(),
+    //                 IconColor = Color.Accent,
+    //             },
+    //             PrimaryAction = "Yes",
+    //             SecondaryAction = "No"
+    //         });
+    //     var result = await dialog.Result;
+    //     if (result.Cancelled) return;
+    //     App.Client.PasswordMakerVm.DeleteCurrentOptions();
+    // }
+
+    internal void Generate()
+    {
+        generatedPasswordText = App.Client.PasswordMakerVm.Generate();
+        StateHasChanged();
+    }
+
+    internal async Task Copy()
+    {
+        if (string.IsNullOrWhiteSpace(generatedPasswordText)) return;
+        await JSRuntime.InvokeVoidAsync("copyToClipboard", generatedPasswordText.Trim());
+    }
+
+    private async Task ShowErrorMessage(string message)
+    {
+        var dialog = await DialogService.ShowErrorAsync(message);
+        var result = await dialog.Result;
+    }
+}

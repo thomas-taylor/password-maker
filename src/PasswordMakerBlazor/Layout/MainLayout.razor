@@ -1,0 +1,13 @@
+﻿@inherits LayoutComponentBase
+<FluentDesignTheme Mode="DesignThemeModes.System" CustomColor="#ff0000" />
+<FluentBodyContent>
+    <ErrorBoundary>
+        <ChildContent>
+            @Body
+        </ChildContent>
+        <ErrorContent Context="ex">
+            <div class="blazor-error-boundary">@ex.Message</div>
+        </ErrorContent>
+    </ErrorBoundary>
+</FluentBodyContent>
+<FluentDialogProvider />
