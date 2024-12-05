@@ -9,7 +9,7 @@ There's a web (Blazor) version that you can run from here: <a href="https://thom
 ## Desktop Version
 The WPF version looks like this:
 
-<img src="img/pm-wpf.png" alt="WPF Screenshot" height="340">
+<img src="img/pm-wpf.png" alt="WPF Screenshot" height="360">
 
 ## How it Works
 - The code runs entirely locally; it makes no web service calls.
