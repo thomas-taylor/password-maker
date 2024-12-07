@@ -20,11 +20,11 @@
                               @key="optionsSelectorVersion" />
 
                 <FluentButton OnClick="@New" Appearance="Appearance.Accent"
-                              IconStart="@(new Icons.Regular.Size16.New())">New</FluentButton>
+                              IconStart="@(new Microsoft.FluentUI.AspNetCore.Components.Icons.Regular.Size16.New())">New</FluentButton>
                 <FluentButton OnClick="@Rename" Appearance="Appearance.Accent"
-                              IconStart="@(new Icons.Regular.Size16.Edit())">Rename</FluentButton>
+                              IconStart="@(new Microsoft.FluentUI.AspNetCore.Components.Icons.Regular.Size16.Edit())">Rename</FluentButton>
                 <FluentButton OnClick="@Delete" Appearance="Appearance.Accent"
-                              IconStart="@(new Icons.Regular.Size16.Delete())">Delete</FluentButton>
+                              IconStart="@(new Microsoft.FluentUI.AspNetCore.Components.Icons.Regular.Size16.Delete())">Delete</FluentButton>
             </FluentStack>
 
             <FluentStack Orientation="Orientation.Vertical" Style="margin-left: 30px; margin-top: 5px;">
@@ -117,9 +117,9 @@
                 <FluentBadge Style="margin-left: auto; margin-top:8px; font-size: 10pt;">Number:</FluentBadge>
                 <FluentNumberField TValue="int" @bind-Value="App.Client.Settings.NumberToGenerate" Min="1" Style="width: 100px; font-size: 11pt;"></FluentNumberField>
                 <FluentButton OnClick="@Generate" Appearance="Appearance.Accent"
-                              IconStart="@(new Icons.Regular.Size16.Play())">Generate</FluentButton>
+                              IconStart="@(new Microsoft.FluentUI.AspNetCore.Components.Icons.Regular.Size16.Play())">Generate</FluentButton>
                 <FluentButton OnClick="@Copy" Appearance="Appearance.Accent"
-                              IconStart="@(new Icons.Regular.Size16.Clipboard())">Copy</FluentButton>
+                              IconStart="@(new Microsoft.FluentUI.AspNetCore.Components.Icons.Regular.Size16.Clipboard())">Copy</FluentButton>
             </FluentStack>
             <FluentTextArea @bind-Value="generatedPasswordText"
                             class="full-height-textarea"
