@@ -1,7 +1,6 @@
 ﻿@page "/"
 @inject IJSRuntime JSRuntime
 @inject IDialogService DialogService
-@inject Blazored.LocalStorage.ILocalStorageService localStorage
 @using Microsoft.FluentUI.AspNetCore.Components
 @using PasswordMaker
 @using PasswordMakerClient
@@ -138,7 +137,7 @@
     protected override async Task OnInitializedAsync()
     {
         if (isInitialized) return;
-        await App.InitializeClient(localStorage);
+        await App.InitializeClient(JSRuntime);
         vm = App.Client.PasswordMakerVm;
         vm.PropertyChanged += (o, e) =>
         {

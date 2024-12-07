@@ -1,4 +1,4 @@
-﻿using Blazored.LocalStorage;
+﻿using Microsoft.JSInterop;
 using PasswordMaker;
 using PasswordMakerClient;
 using System.Collections.Specialized;
@@ -8,22 +8,36 @@ namespace PasswordMakerBlazor;
 
 public static class App
 {
-    private static ILocalStorageService localStorage;
+    private static IJSRuntime jsRuntime;
     public static Client Client { get; private set; }
 
-    public static async Task InitializeClient(ILocalStorageService localStorageService)
+    public static async Task InitializeClient(IJSRuntime jsRuntimeInstance)
     {
-        localStorage = localStorageService;
-        string settingsJson = await localStorage.GetItemAsync<string>("settingsJson");
-        Client = new(PasswordMakerSettings.FromJsonOrDefault(settingsJson));
+        jsRuntime = jsRuntimeInstance;
+        Client = new(await GetSettings());
         Client.Settings.PropertyChanged += async (o, e) => await SaveSettings();
         SubscribeToSavedOptions(Client.Settings.SavedOptions);
+    }
+
+    private static async Task<PasswordMakerSettings> GetSettings()
+    {
+        try
+        {
+            string settingsJson = await jsRuntime.InvokeAsync<string>("getLocalStorageValue", "settingsJson");
+            return PasswordMakerSettings.FromJsonOrDefault(settingsJson);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error loading settings from local storage: {ex}");
+            Console.WriteLine("Using default settings");
+            return PasswordMakerSettings.GetDefaultSettings();
+        }
     }
 
     public static async Task SaveSettings()
     {
         string settingsJson = Client.Settings.ToJson();
-        await localStorage.SetItemAsync("settingsJson", settingsJson);
+        await jsRuntime.InvokeVoidAsync("setLocalStorageValue", "settingsJson", settingsJson);
     }
 
     private static void SubscribeToSavedOptions(PasswordMakerOptionsCollection savedOptions)

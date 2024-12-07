@@ -8,3 +8,11 @@
         }
     );
 }
+
+function setLocalStorageValue(key, value) {
+    localStorage.setItem(key, value);
+}
+
+function getLocalStorageValue(key) {
+    return localStorage.getItem(key);
+}
