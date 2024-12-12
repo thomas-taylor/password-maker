@@ -1,5 +1,4 @@
-﻿using Microsoft.JSInterop;
-using PasswordMaker;
+﻿using PasswordMaker;
 using PasswordMakerClient;
 using System.Collections.Specialized;
 using System.ComponentModel;
@@ -8,22 +7,21 @@ namespace PasswordMakerBlazor;
 
 public static class App
 {
-    private static IJSRuntime jsRuntime;
+    private const string localStorageKey = "settingsJson";
     public static Client Client { get; private set; }
 
-    public static async Task InitializeClient(IJSRuntime jsRuntimeInstance)
+    public static void InitializeClient()
     {
-        jsRuntime = jsRuntimeInstance;
-        Client = new(await GetSettings());
-        Client.Settings.PropertyChanged += async (o, e) => await SaveSettings();
+        Client = new(GetSettings());
+        Client.Settings.PropertyChanged += (o, e) => SaveSettings();
         SubscribeToSavedOptions(Client.Settings.SavedOptions);
     }
 
-    private static async Task<PasswordMakerSettings> GetSettings()
+    private static PasswordMakerSettings GetSettings()
     {
         try
         {
-            string settingsJson = await jsRuntime.InvokeAsync<string>("getLocalStorageValue", "settingsJson");
+            string settingsJson = AppJs.GetLocalStorageValue(localStorageKey);
             return PasswordMakerSettings.FromJsonOrDefault(settingsJson);
         }
         catch (Exception ex)
@@ -34,10 +32,10 @@ public static class App
         }
     }
 
-    public static async Task SaveSettings()
+    public static void SaveSettings()
     {
         string settingsJson = Client.Settings.ToJson();
-        await jsRuntime.InvokeVoidAsync("setLocalStorageValue", "settingsJson", settingsJson);
+        AppJs.SetLocalStorageValue(localStorageKey, settingsJson);
     }
 
     private static void SubscribeToSavedOptions(PasswordMakerOptionsCollection savedOptions)
@@ -47,21 +45,7 @@ public static class App
 
         // Subscribe to PropertyChanged for each existing item
         foreach (PasswordMakerOptions pmo in savedOptions)
-        {
             pmo.PropertyChanged += OnSavedOptionPropertyChanged;
-        }
-    }
-
-    private static void UnsubscribeFromSavedOptions(PasswordMakerOptionsCollection savedOptions)
-    {
-        // Unsubscribe from collection changes
-        savedOptions.CollectionChanged -= OnSavedOptionsCollectionChanged;
-
-        // Unsubscribe from PropertyChanged for each item
-        foreach (var option in savedOptions)
-        {
-            option.PropertyChanged -= OnSavedOptionPropertyChanged;
-        }
     }
 
     private static void OnSavedOptionsCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
@@ -69,28 +53,19 @@ public static class App
         if (e.NewItems != null)
         {
             foreach (PasswordMakerOptions newItem in e.NewItems)
-            {
-                // Subscribe to PropertyChanged for new items
                 newItem.PropertyChanged += OnSavedOptionPropertyChanged;
-            }
         }
 
         if (e.OldItems != null)
         {
             foreach (PasswordMakerOptions oldItem in e.OldItems)
-            {
-                // Unsubscribe from PropertyChanged for removed items
                 oldItem.PropertyChanged -= OnSavedOptionPropertyChanged;
-            }
         }
-
-        // Save settings when collection changes
-        SaveSettings().ConfigureAwait(false);
+        SaveSettings();
     }
 
     private static void OnSavedOptionPropertyChanged(object sender, PropertyChangedEventArgs e)
     {
-        // Save settings when an item property changes
-        SaveSettings().ConfigureAwait(false);
+        SaveSettings();
     }
 }
