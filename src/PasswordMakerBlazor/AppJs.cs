@@ -5,9 +5,11 @@ namespace PasswordMakerBlazor;
 public static partial class AppJs
 {
     [System.Runtime.Versioning.SupportedOSPlatform("browser")]
-    internal static async Task Initialize()
+    internal static async Task Initialize(string baseAddress)
     {
-        await JSHost.ImportAsync("app", "/app.js");
+        string basePath = new Uri(baseAddress).AbsolutePath;
+        string appJsPath = $"{basePath.TrimEnd('/')}/app.js";
+        await JSHost.ImportAsync("app", appJsPath);
     }
 
     [JSImport("copyToClipboard", "app")]

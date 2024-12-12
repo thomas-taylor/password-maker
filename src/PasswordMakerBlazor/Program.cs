@@ -13,7 +13,7 @@ internal class Program
         builder.RootComponents.Add<HeadOutlet>("head::after");
         builder.Services.AddFluentUIComponents();
         var host = builder.Build();
-        await AppJs.Initialize();
+        await AppJs.Initialize(builder.HostEnvironment.BaseAddress);
         await host.RunAsync();
     }
 }

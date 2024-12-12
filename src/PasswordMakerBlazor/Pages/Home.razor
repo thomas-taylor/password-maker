@@ -172,8 +172,8 @@
         if (App.Client.PasswordMakerVm.CurrentOptions.Name == newName) return;
         App.Client.PasswordMakerVm.RenameCurrentOptions(newName);
 
-        // Don't fully understand, but without this, the UI crashes when StateHasChanged is called
-        // This increments the key for the FluentSelect (i.e., @key="optionsVersion")
+        // Line below increments the key for the FluentSelect (i.e., @key="optionsSelectorVersion")
+        // I don't understand, but without this, the UI crashes when StateHasChanged is called
         // We need to call StateHasChanged because Blazor does not automatically update the display
         // when CurrentOptions.Name is changed
         optionsSelectorVersion++;
