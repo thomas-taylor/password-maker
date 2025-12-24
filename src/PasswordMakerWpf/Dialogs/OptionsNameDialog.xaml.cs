@@ -14,7 +14,7 @@ public enum OptionsNameDialogMode
 
 public partial class OptionsNameDialog : UserControl
 {
-    private OptionsNameDialogMode dialogMode = OptionsNameDialogMode.RenameOptions;
+    private readonly OptionsNameDialogMode dialogMode = OptionsNameDialogMode.RenameOptions;
 
     public string OptionsName
     {

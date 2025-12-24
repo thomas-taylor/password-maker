@@ -9,7 +9,7 @@ namespace PasswordMakerClient;
 public class PasswordMakerVm : INotifyPropertyChanged
 {
     private readonly Client client;
-    private bool isInitialized = false;
+    private readonly bool isInitialized = false;
 
     public PasswordMakerVm(Client client)
     {

@@ -43,9 +43,6 @@
                                 ItemsSource="{Binding SavedOptions}"
                                 SelectedItem="{Binding CurrentOptions}"
                                 DisplayMemberPath="Name" IsEditable="False" />
-                                      <!--Name="savedOptionsComboBox"
-                                SelectionChanged="SavedOptionsComboBoxSelectionChanged"-->
-                                      
                         </Grid>
                         <Grid Grid.Row="1">
                             <Grid.ColumnDefinitions>

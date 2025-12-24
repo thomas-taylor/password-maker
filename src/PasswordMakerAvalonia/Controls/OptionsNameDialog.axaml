@@ -1,0 +1,41 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="PasswordMakerAvalonia.OptionsNameDialog"
+             Width="500" Height="250">
+	<Border CornerRadius="10" BorderBrush="{DynamicResource PrimaryBrush}" BorderThickness="2" Padding="15">
+		<Grid>
+			<Grid.RowDefinitions>
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
+			</Grid.RowDefinitions>
+
+			<!-- Caption -->
+			<StackPanel Orientation="Horizontal" Grid.Row="0" Margin="15,2,5,2">
+				<TextBlock x:Name="captionTextBlock" Text="Caption" FontSize="18" FontWeight="Bold" Margin="5,0,0,0"/>
+			</StackPanel>
+
+			<!-- Input -->
+			<TextBox Grid.Row="1" Margin="20" x:Name="nameTextBox" FontSize="12" />
+
+			<!-- Message -->
+			<Border Grid.Row="2" Margin="20,10,20,20" CornerRadius="4" Background="{DynamicResource SecondaryBrush}">
+				<TextBlock x:Name="messageTextBlock" Text="Message goes here" Margin="10,8,10,5" FontSize="12" Foreground="White" IsVisible="False"/>
+			</Border>
+
+			<!-- Buttons -->
+			<Grid Grid.Row="3">
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="*" />
+					<ColumnDefinition Width="Auto" />
+					<ColumnDefinition Width="Auto" />
+				</Grid.ColumnDefinitions>
+				<Button Grid.Column="1" Content="Save" Margin="10,5,10,5" x:Name="saveButton" Click="SaveButtonClick" />
+				<Button Grid.Column="2" Content="Cancel" Margin="10,5,10,5" Click="CancelButtonClick" />
+			</Grid>
+		</Grid>
+	</Border>
+</UserControl>

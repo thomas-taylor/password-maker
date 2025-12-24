@@ -35,15 +35,15 @@ public partial class OptionsEditor : UserControl
     {
         characterGroupsGrid.ColumnDefinitions.Add(new ColumnDefinition() { Width = GridLength.Auto });
         characterGroupsGrid.ColumnDefinitions.Add(new ColumnDefinition() { Width = GridLength.Auto });
-        FontFamily charFont = new FontFamily("Consolas, Courier New");
-        Thickness margin = new Thickness(5.0);
-        groupsCheckBoxes = new List<CheckBox>();
+        FontFamily charFont = new("Consolas, Courier New");
+        Thickness margin = new(5.0);
+        groupsCheckBoxes = [];
         for (int i = 0; i < PasswordMakerCharacterGroups.CharacterGroupDefinitions.Count; i++)
         {
             PasswordMakerCharacterGroup def = PasswordMakerCharacterGroups.CharacterGroupDefinitions[i];
             characterGroupsGrid.RowDefinitions.Add(new RowDefinition() { Height = GridLength.Auto });
 
-            CheckBox cb = new CheckBox();
+            CheckBox cb = new();
             Grid.SetRow(cb, i);
             Grid.SetColumn(cb, 0);
             cb.Content = def.GroupName;
@@ -54,7 +54,7 @@ public partial class OptionsEditor : UserControl
             characterGroupsGrid.Children.Add(cb);
             groupsCheckBoxes.Add(cb);
 
-            TextBlock tb = new TextBlock();
+            TextBlock tb = new();
             Grid.SetRow(tb, i);
             Grid.SetColumn(tb, 1);
             tb.Text = def.Display;

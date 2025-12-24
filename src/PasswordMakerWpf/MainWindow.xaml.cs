@@ -56,7 +56,7 @@ public partial class MainWindow : Window
     {
         OptionsNameDialog dialog = new(string.Empty, OptionsNameDialogMode.NewOptions);
         var result = await MaterialDesignThemes.Wpf.DialogHost.Show(dialog, "MainDialogHost");
-        if (!(result is bool save) || !save) return;
+        if (result is not bool save || !save) return;
         vm.AddNewPasswordMakerOptions(dialog.OptionsName);
     }
 
@@ -64,7 +64,7 @@ public partial class MainWindow : Window
     {
         OptionsNameDialog dialog = new(vm.CurrentOptions.Name, OptionsNameDialogMode.RenameOptions);
         var result = await MaterialDesignThemes.Wpf.DialogHost.Show(dialog, "MainDialogHost");
-        if (!(result is bool save) || !save) return;
+        if (result is not bool save || !save) return;
         vm.RenameCurrentOptions(dialog.OptionsName);
     }
 
@@ -72,10 +72,8 @@ public partial class MainWindow : Window
     {
         OptionsNameDialog dialog = new(vm.CurrentOptions.Name, OptionsNameDialogMode.DeleteOptions);
         var result = await MaterialDesignThemes.Wpf.DialogHost.Show(dialog, "MainDialogHost");
-        if (!(result is bool save) || !save) return;
+        if (result is not bool save || !save) return;
         vm.DeleteCurrentOptions();
-        //if (App.Client.Settings.SavedOptions.Count > 0)
-        //    savedOptionsComboBox.SelectedIndex = 0;
     }
 
     private void PreviewTextInputForPositiveIntegers(object sender, TextCompositionEventArgs e)

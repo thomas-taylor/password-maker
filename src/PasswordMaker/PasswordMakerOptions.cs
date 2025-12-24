@@ -197,7 +197,7 @@ public class PasswordMakerOptions : INotifyPropertyChanged
             RemoveCharacters(charSet, LookAlikeCharacters);
         }
 
-        List<char> charList = charSet.ToList();
+        List<char> charList = [.. charSet];
         if (shuffle) charList.Shuffle();
 
         return charList;
