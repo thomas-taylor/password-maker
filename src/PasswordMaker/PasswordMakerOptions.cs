@@ -9,90 +9,72 @@ namespace PasswordMaker;
 
 public class PasswordMakerOptions : INotifyPropertyChanged
 {
-    private string name;
     public string Name
     {
-        get { return name; }
+        get;
         set
         {
-            if (name != value)
-            {
-                name = value;
-                NotifyPropertyChanged();
-            }
+            if (field == value) return;
+            field = value;
+            NotifyPropertyChanged();
         }
     }
 
     public ObservableCollection<CharacterGroupTypes> IncludeCharacterGroupTypes { get; set; }
 
-    private string includeSpecificCharacters;
     public string IncludeSpecificCharacters
     {
-        get { return includeSpecificCharacters; }
+        get;
         set
         {
-            if (includeSpecificCharacters != value)
-            {
-                includeSpecificCharacters = value;
-                NotifyPropertyChanged();
-            }
+            if (field == value) return;
+            field = value;
+            NotifyPropertyChanged();
         }
     }
 
-    private string excludeSpecificCharacters;
     public string ExcludeSpecificCharacters
     {
-        get { return excludeSpecificCharacters; }
+        get;
         set
         {
-            if (excludeSpecificCharacters != value)
-            {
-                excludeSpecificCharacters = value;
-                NotifyPropertyChanged();
-            }
+            if (field == value) return;
+            field = value;
+            NotifyPropertyChanged();
         }
     }
 
-    private bool excludeLookAlikeCharacters;
     public bool ExcludeLookAlikeCharacters
     {
-        get { return excludeLookAlikeCharacters; }
+        get;
         set
         {
-            if (excludeLookAlikeCharacters != value)
-            {
-                excludeLookAlikeCharacters = value;
-                NotifyPropertyChanged();
-            }
+            if (field == value) return;
+            field = value;
+            NotifyPropertyChanged();
         }
     }
 
-    private bool allowMultiplesOfSameCharacter;
     public bool AllowMultiplesOfSameCharacter
     {
-        get { return allowMultiplesOfSameCharacter; }
+        get;
         set
         {
-            if (allowMultiplesOfSameCharacter != value)
-            {
-                allowMultiplesOfSameCharacter = value;
-                NotifyPropertyChanged();
-            }
+            if (field == value) return;
+            field = value;
+            NotifyPropertyChanged();
         }
     }
 
-    private int length;
     public int Length
     {
-        get { return length; }
+        get;
         set
         {
             if (value < 1) value = 1;
-            if (length != value)
-            {
-                length = value;
-                NotifyPropertyChanged();
-            }
+            if (field == value) return;
+            field = value;
+            NotifyPropertyChanged();
         }
     }
 

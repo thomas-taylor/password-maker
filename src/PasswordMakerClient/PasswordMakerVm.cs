@@ -29,21 +29,18 @@ public class PasswordMakerVm : INotifyPropertyChanged
 
     public PasswordMakerOptionsCollection SavedOptions => client.Settings.SavedOptions;
 
-    private PasswordMakerOptions currentOptions;
     public PasswordMakerOptions CurrentOptions
     {
-        get { return currentOptions; }
+        get;
         set
         {
-            if (value == null) return;
-            if (currentOptions != value)
-            {
-                currentOptions = value;
-                NotifyPropertyChanged();
-                if (isInitialized)
-                    client.Settings.UpdateLastSavedOptionsIndex(CurrentOptions);
-            }
+            if (field == value) return;
+            field = value;
+            NotifyPropertyChanged();
+            if (isInitialized)
+                client.Settings.UpdateLastSavedOptionsIndex(CurrentOptions);
         }
+    }
     }
 
     public int NumberToGenerate
