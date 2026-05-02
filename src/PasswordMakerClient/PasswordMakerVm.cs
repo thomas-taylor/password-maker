@@ -41,7 +41,6 @@ public class PasswordMakerVm : INotifyPropertyChanged
                 client.Settings.UpdateLastSavedOptionsIndex(CurrentOptions);
         }
     }
-    }
 
     public int NumberToGenerate
     {

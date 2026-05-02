@@ -20,5 +20,6 @@ The WPF version looks like this:
 - As shown in the screenshot above, there are several options to control which characters to include, and you can save multiple sets of options.  On Windows, option settings are saved in %LOCALAPPDATA%\PasswordMaker.  In a browser options are saved to local storage.
 
 ## Additional User Interfaces
-- An Avalonia UI version might come next. I'd like to make Android, Browser, and Desktop versions.
-- I started with a command-line version years ago, but it is out-of-date. If you think that would be useful, let me know, or I'd be happy to have a PR.
+- I made this for my own use and then improved it a bit to play with various UI approaches.  For now, it is just Blazor and WPF, but I might add others.  If you have suggestions, let me know.  I'd really like a good cross-platform option.
+- I prototyped an Avalonia UI version (with Android, Browser, and Desktop versions), but I removed this because it now has security vulnerabilities and breaking changes in the new version.
+- I started with a CLI years ago, but it is out-of-date. If you think that would be useful, let me know, or I'd be happy to have a PR.
